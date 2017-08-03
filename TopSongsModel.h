@@ -14,7 +14,8 @@ public:
     {
         TitleRole = Qt::UserRole,
         ArtistRole,
-        ImageRole
+        ImageRole,
+        SampleRole
     };
     Q_ENUMS(Roles)
 

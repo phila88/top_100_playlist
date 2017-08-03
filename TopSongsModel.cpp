@@ -2,7 +2,8 @@
 
 QHash<int, QByteArray> TopSongsModel::ROLE_NAMES({{TitleRole, "titleRole"},
                                                   {ArtistRole, "artistRole"},
-                                                  {ImageRole, "imageRole"}});
+                                                  {ImageRole, "imageRole"},
+                                                  {SampleRole, "sampleRole"}});
 
 TopSongsModel::TopSongsModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -44,6 +45,8 @@ QVariant TopSongsModel::data(const QModelIndex &index, int role) const
         return m_songs.at(index.row()).m_artist;
     case ImageRole:
         return m_songs.at(index.row()).m_imageUrl;
+    case SampleRole:
+        return m_songs.at(index.row()).m_sampleUrl;
     default:
         qWarning() << "Invalid role:" << role;
     }
