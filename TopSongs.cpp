@@ -2,6 +2,11 @@
 
 #include <QXmlStreamReader>
 
+namespace
+{
+const QUrl ITUNES_LIST("https://itunes.apple.com/us/rss/topsongs/limit=100/xml");
+}
+
 TopSongs::TopSongs(QObject *parent) : QObject(parent)
 {
 
@@ -9,25 +14,20 @@ TopSongs::TopSongs(QObject *parent) : QObject(parent)
 
 void TopSongs::downloadSongInfo()
 {
-    QNetworkAccessManager * mgr = new QNetworkAccessManager;
-    connect(mgr,SIGNAL(finished(QNetworkReply*)),this,SLOT(onfinish(QNetworkReply*)));
-    connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,SLOT(deleteLater()));
+    QNetworkAccessManager *accessManager = new QNetworkAccessManager;
+    connect(accessManager, static_cast<void (QNetworkAccessManager::*)(QNetworkReply*)>(&QNetworkAccessManager::finished),
+            this, &TopSongs::onReceive);
+    connect(accessManager, static_cast<void (QNetworkAccessManager::*)(QNetworkReply*)>(&QNetworkAccessManager::finished),
+            accessManager, &QNetworkAccessManager::deleteLater);
 
-    mgr->get(QNetworkRequest(QUrl("https://itunes.apple.com/us/rss/topsongs/limit=100/xml")));
+    accessManager->get(QNetworkRequest(QUrl(ITUNES_LIST)));
 }
 
-QList<TopSongs::SongData> TopSongs::getSongs()
+void TopSongs::onReceive(QNetworkReply* response)
 {
-    return m_songs;
-}
+    QByteArray bytes = response->readAll();
 
-void TopSongs::onfinish(QNetworkReply* rep)
-{
-    QByteArray bts = rep->readAll();
-    QString str(bts);
-
-    QXmlStreamReader xml(bts);
-    int count = 0;
+    QXmlStreamReader xml(bytes);
     QString title;
     QString artist;
     QString imageUrl;
@@ -55,7 +55,6 @@ void TopSongs::onfinish(QNetworkReply* rep)
                 m_songs.append(data);
             }
         }
-        ++count;
     }
     if (xml.hasError()) {
         qDebug() << "HAD ERROR !!!!!!!!!!";

@@ -10,6 +10,7 @@
 class TopSongs : public QObject
 {
     Q_OBJECT
+
 public:
     explicit TopSongs(QObject *parent = nullptr);
 
@@ -24,10 +25,9 @@ public:
     };
 
     void downloadSongInfo();
-    QList<SongData> getSongs();
 
 public slots:
-    void onfinish(QNetworkReply *rep);
+    void onReceive(QNetworkReply *response);
 
 signals:
     void downloadComplete(QList<SongData>& songData);
