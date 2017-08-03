@@ -12,7 +12,7 @@ TopSongsModel::TopSongsModel(QObject *parent)
 
     connect(m_songDownloader, &TopSongsInfoDownloader::downloadComplete, this, [this](QList<TopSongsInfoDownloader::SongData>& songData){
         m_songs = songData;
-        qDebug() << "Reset model" << rowCount();
+        qDebug() << "Reset model. Row count:" << rowCount();
         beginResetModel();
         endResetModel();
     });
@@ -45,26 +45,8 @@ QVariant TopSongsModel::data(const QModelIndex &index, int role) const
     case ImageRole:
         return m_songs.at(index.row()).m_imageUrl;
     default:
-        qWarning() << "Invalid role";
+        qWarning() << "Invalid role:" << role;
     }
 
     return QVariant();
-}
-
-bool TopSongsModel::insertRows(int row, int count, const QModelIndex &parent)
-{
-    beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-    endInsertRows();
-
-    return true;
-}
-
-bool TopSongsModel::removeRows(int row, int count, const QModelIndex &parent)
-{
-    beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-    endRemoveRows();
-
-    return false;
 }
