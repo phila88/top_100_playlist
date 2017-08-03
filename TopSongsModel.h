@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 
-#include "TopSongs.h"
+#include "TopSongsInfoDownloader.h"
 
 class TopSongsModel : public QAbstractListModel
 {
@@ -34,8 +34,8 @@ public:
 
 private:
     static QHash<int, QByteArray> ROLE_NAMES;
-    QList<TopSongs::SongData> m_songs;
-    TopSongs* m_songDownloader;
+    QList<TopSongsInfoDownloader::SongData> m_songs;
+    TopSongsInfoDownloader* m_songDownloader;
 };
 
 #endif // TOPSONGSMODEL_H

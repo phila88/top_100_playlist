@@ -6,11 +6,11 @@ QHash<int, QByteArray> TopSongsModel::ROLE_NAMES({{TitleRole, "titleRole"},
 
 TopSongsModel::TopSongsModel(QObject *parent)
     : QAbstractListModel(parent)
-    , m_songDownloader(new TopSongs(this))
+    , m_songDownloader(new TopSongsInfoDownloader(this))
 {
     m_songDownloader->downloadSongInfo();
 
-    connect(m_songDownloader, &TopSongs::downloadComplete, this, [this](QList<TopSongs::SongData>& songData){
+    connect(m_songDownloader, &TopSongsInfoDownloader::downloadComplete, this, [this](QList<TopSongsInfoDownloader::SongData>& songData){
         m_songs = songData;
         qDebug() << "Reset model" << rowCount();
         beginResetModel();

@@ -1,4 +1,4 @@
-#include "TopSongs.h"
+#include "TopSongsInfoDownloader.h"
 
 #include <QXmlStreamReader>
 
@@ -7,23 +7,23 @@ namespace
 const QUrl ITUNES_LIST("https://itunes.apple.com/us/rss/topsongs/limit=100/xml");
 }
 
-TopSongs::TopSongs(QObject *parent) : QObject(parent)
+TopSongsInfoDownloader::TopSongsInfoDownloader(QObject *parent) : QObject(parent)
 {
 
 }
 
-void TopSongs::downloadSongInfo()
+void TopSongsInfoDownloader::downloadSongInfo()
 {
     QNetworkAccessManager *accessManager = new QNetworkAccessManager;
     connect(accessManager, static_cast<void (QNetworkAccessManager::*)(QNetworkReply*)>(&QNetworkAccessManager::finished),
-            this, &TopSongs::onReceive);
+            this, &TopSongsInfoDownloader::onReceive);
     connect(accessManager, static_cast<void (QNetworkAccessManager::*)(QNetworkReply*)>(&QNetworkAccessManager::finished),
             accessManager, &QNetworkAccessManager::deleteLater);
 
     accessManager->get(QNetworkRequest(QUrl(ITUNES_LIST)));
 }
 
-void TopSongs::onReceive(QNetworkReply* response)
+void TopSongsInfoDownloader::onReceive(QNetworkReply* response)
 {
     QByteArray bytes = response->readAll();
 

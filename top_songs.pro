@@ -4,8 +4,8 @@ QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    TopSongs.cpp \
-    TopSongsModel.cpp
+    TopSongsModel.cpp \
+    TopSongsInfoDownloader.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,5 +32,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    TopSongs.h \
-    TopSongsModel.h
+    TopSongsModel.h \
+    TopSongsInfoDownloader.h

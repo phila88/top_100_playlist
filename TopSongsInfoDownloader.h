@@ -7,12 +7,12 @@
 #include <QNetworkReply>
 #include <QDebug>
 
-class TopSongs : public QObject
+class TopSongsInfoDownloader : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit TopSongs(QObject *parent = nullptr);
+    explicit TopSongsInfoDownloader(QObject *parent = nullptr);
 
     struct SongData {
         QString m_title;
