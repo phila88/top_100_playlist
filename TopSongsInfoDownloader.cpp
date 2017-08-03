@@ -51,6 +51,7 @@ void TopSongsInfoDownloader::onReceive(QNetworkReply* response)
             {
                 //qDebug() << count << "NAME:" << xml.name() << "IMAGE:" << imageUrl;
                 imageUrl = url;
+                title.remove(" - " + artist);
                 SongData data(title, artist, imageUrl);
                 m_songs.append(data);
             }

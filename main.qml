@@ -8,6 +8,7 @@ Window {
     width: 300
     height: 480
     title: qsTr("Top Songs Playlist")
+    color: "darkslategrey"
     id: root
 
     TopSongsModel {
@@ -22,7 +23,7 @@ Window {
         height: 480
 
         delegate: Rectangle {
-            color: index === songsView.currentIndex ? "slate gray" : "black"
+            color: index === songsView.currentIndex ? "darkslateblue" : "darkslategrey"//"dimgrey" : "darkslategrey"
             width: 300
             height: 55
 
@@ -41,13 +42,19 @@ Window {
                     Text {
                         text: artistRole
                         color: "white"
+                        font.italic: true
                     }
                 }
             }
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: songsView.currentIndex = index
+                onClicked: {
+                    if(songsView.currentIndex === index)
+                        songsView.currentIndex = -1
+                    else
+                        songsView.currentIndex = index
+                }
             }
         }
     }
