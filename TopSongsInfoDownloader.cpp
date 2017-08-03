@@ -31,38 +31,44 @@ void TopSongsInfoDownloader::onReceive(QNetworkReply* response)
     QString title;
     QString artist;
     QString imageUrl;
+    QString sampleUrl;
 
-    while(!xml.atEnd()) {
-        xml.readNext();
+    while(!xml.atEnd())
+    {
+        // Traverse over startelements
+        if(xml.readNext() != QXmlStreamReader::StartElement)
+        {
+            continue;
+        }
+
         if(xml.name() == "title")
         {
-            //qDebug() << count << "NAME:" << xml.name() << "TITLE:" << xml.readElementText();
             title = xml.readElementText();
         }
-        if(xml.name() == "artist")
+        else if(xml.name() == "artist")
         {
-            //qDebug() << count << "NAME:" << xml.name() << "ARTIST:" << xml.readElementText();
             artist = xml.readElementText();
         }
-        if(xml.name() == "image")
+        else if(xml.name() == "link"
+                && xml.attributes().hasAttribute("title")
+                && xml.attributes().value("title") == "Preview")
         {
-            auto url = xml.readElementText();
-            if(url.contains("55x55"))
-            {
-                //qDebug() << count << "NAME:" << xml.name() << "IMAGE:" << imageUrl;
-                imageUrl = url;
-                title.remove(" - " + artist);
-                SongData data(title, artist, imageUrl);
-                m_songs.append(data);
-            }
+            //qDebug() << xml.attributes().value("href");
+            sampleUrl = xml.attributes().value("href").toString();
+        }
+        else if(xml.name() == "image"
+                && xml.attributes().value("height") == "60")
+        {
+            imageUrl = xml.readElementText();
+            title.remove(" - " + artist);
+            SongData data(title, artist, imageUrl, sampleUrl);
+            m_songs.append(data);
         }
     }
     if (xml.hasError()) {
         qDebug() << "HAD ERROR !!!!!!!!!!";
     }
-    qDebug() << "DONE !!!!!!!!";
-    //for(auto song : m_songs)
-        //qDebug() << "T:" << song.m_title << "A:" << song.m_artist << "U:" << song.m_imageUrl;
+    qDebug() << "Download complete";
 
     emit downloadComplete(m_songs);
 }

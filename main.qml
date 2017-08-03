@@ -25,7 +25,7 @@ Window {
         delegate: Rectangle {
             color: index === songsView.currentIndex ? "darkslateblue" : "darkslategrey"//"dimgrey" : "darkslategrey"
             width: 300
-            height: 55
+            height: 60
 
             RowLayout {
                 Image {

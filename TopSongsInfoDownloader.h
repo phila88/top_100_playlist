@@ -18,9 +18,10 @@ public:
         QString m_title;
         QString m_artist;
         QString m_imageUrl;
+        QString m_sampleUrl;
 
-        SongData(QString title, QString name, QString imageUrl)
-            : m_title(title), m_artist(name), m_imageUrl(imageUrl)
+        SongData(QString title, QString name, QString imageUrl, QString sampleUrl)
+            : m_title(title), m_artist(name), m_imageUrl(imageUrl), m_sampleUrl(sampleUrl)
         {}
     };
 
