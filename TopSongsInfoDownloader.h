@@ -25,7 +25,7 @@ public:
         {}
     };
 
-    void downloadSongInfo();
+    void downloadAllSongsInfo();
 
 public slots:
     void onReceive(QNetworkReply *response);

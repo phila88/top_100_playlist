@@ -9,7 +9,7 @@ TopSongsModel::TopSongsModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_songDownloader(new TopSongsInfoDownloader(this))
 {
-    m_songDownloader->downloadSongInfo();
+    m_songDownloader->downloadAllSongsInfo();
 
     connect(m_songDownloader, &TopSongsInfoDownloader::downloadComplete, this, [this](QList<TopSongsInfoDownloader::SongData>& songData){
         m_songs = songData;
@@ -17,6 +17,9 @@ TopSongsModel::TopSongsModel(QObject *parent)
         beginResetModel();
         endResetModel();
     });
+
+    // TODO: Need to have model be able to update individual roles with dataChanged() signal
+    // if song list changes
 }
 
 QHash<int, QByteArray> TopSongsModel::roleNames() const

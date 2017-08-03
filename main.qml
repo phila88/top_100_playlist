@@ -12,11 +12,13 @@ Window {
     color: "darkslategrey"
     id: root
 
+    // TODO: model/UI both need a way to trigger a refresh to get the latest song info
     TopSongsModel {
         id: songsModel
     }
 
     // FIX: defaultServiceProvider::requestService(): no service found for - "org.qt-project.qt.mediaplayer"
+    // Currently the audio doesn't work
     Audio {
         id: playSample
         source: ""
@@ -35,6 +37,8 @@ Window {
             height: 60
 
             RowLayout {
+
+                // TODO: Maybe there is a faster/cleaner way to load the images
                 Image {
                     source: imageRole
                     asynchronous: true
